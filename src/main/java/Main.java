@@ -1,4 +1,9 @@
 import javafx.application.Application;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.collections.transformation.FilteredList;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -21,8 +26,7 @@ public class Main extends Application {
 
     private Pane root = new Pane();
     private File selectedFile;
-    private List<XYChart.Series> seriesList = new ArrayList<>();
-
+ 
 
     @Override public void start(Stage stage) {
         stage.setTitle("Java projekt A W");
@@ -35,7 +39,7 @@ public class Main extends Application {
 
         final LineChart<Number,Number> lineChart =
                 new LineChart<Number,Number>(xAxis,yAxis); // wykres liniowy - numeryczny, na dwoch osiach
-
+        lineChart.setCreateSymbols(false);
 
         //XYChart.Series series = new XYChart.Series(); // seria danych x i y dla pojedynczego wykresu
 
@@ -61,7 +65,8 @@ public class Main extends Application {
                         System.out.println(x);
                         System.out.println(line); // linia przed konwersja
                         XYChart.Series series = new XYChart.Series(); // nowa linia tekstu = nowa seria danych
-                        //reader.lines().
+                       // ObservableList foo = series.getData();
+
                         series.setName("Wykres " +x);
                         List<Integer> intList = Stream // konwersja pojedynczej linii na liste
                                 .of(line.split(";")) // rozdzielenie na ";"
@@ -73,6 +78,25 @@ public class Main extends Application {
                             series.getData().add(new XYChart.Data(intList.get(i), intList.get(i+1)));
                         }
                         lineChart.getData().add(series); // dodanie serii danych do wykresu
+//                        series.getNode().setOnMouseClicked(event1 -> {
+//                            //System.out.println(event1.toString());
+//                        });
+                        lineChart.lookupAll("Label.chart-legend-item").forEach(n->n.setOnMouseClicked(event1 -> {
+                            String boo = n.toString().split("'")[1];
+                            //System.out.println(boo);
+                            //n.toString()
+                            ;
+                            lineChart.getData().filtered(s -> s.getName().equals(boo))
+                                .forEach(foo->foo.getNode().setVisible(!foo.getNode().isVisible()));
+//                            lineChart.lookupAll(".series0").forEach(foo->{
+//                                foo.setVisible(!foo.isVisible());
+//                                System.out.println(foo);
+//                            });
+                            //lineChart.lookupAll(".chart-legend-item-symbol").forEach(nn->nn.setVisible(true));
+
+                            //n.setVisible(false);
+                        }));
+
                     }
 
                 } catch (IOException e){
@@ -89,42 +113,9 @@ public class Main extends Application {
 
         XYChart.Series series1 = new XYChart.Series(); // seria danych x i y dla pojedynczego wykresu
         series1.setName("Wykres 1");
+        String hoo = getClass().getResource("styleFile.css").toExternalForm();
+        root.getStylesheets().add(hoo);
 
-
-        series1.getData().add(new XYChart.Data(1, 23));
-        series1.getData().add(new XYChart.Data(2, 14));
-        series1.getData().add(new XYChart.Data(3, 15));
-        series1.getData().add(new XYChart.Data(4, 24));
-        series1.getData().add(new XYChart.Data(5, 34));
-        series1.getData().add(new XYChart.Data(6, 36));
-        series1.getData().add(new XYChart.Data(7, 22));
-        series1.getData().add(new XYChart.Data(8, 45));
-        series1.getData().add(new XYChart.Data(9, 43));
-        series1.getData().add(new XYChart.Data(10, 17));
-        series1.getData().add(new XYChart.Data(11, 29));
-        series1.getData().add(new XYChart.Data(12, 25));
-
-
-        /*XYChart.Series series2 = new XYChart.Series();
-        series2.setName("Portfolio 2");
-        series2.getData().add(new XYChart.Data("Jan", 33));
-        series2.getData().add(new XYChart.Data("Feb", 34));
-        series2.getData().add(new XYChart.Data("Mar", 25));
-        series2.getData().add(new XYChart.Data("Apr", 44));
-        series2.getData().add(new XYChart.Data("May", 39));
-        series2.getData().add(new XYChart.Data("Jun", 16));
-        series2.getData().add(new XYChart.Data("Jul", 55));
-        series2.getData().add(new XYChart.Data("Aug", 54));
-        series2.getData().add(new XYChart.Data("Sep", 48));
-        series2.getData().add(new XYChart.Data("Oct", 27));
-        series2.getData().add(new XYChart.Data("Nov", 37));
-        series2.getData().add(new XYChart.Data("Dec", 29));*/
-
-
-        //Scene scene  = new Scene(lineChart,800,600);
-        //lineChart.getData().addAll(series1, series2, series3);
-
-        // lineChart.getData().addAll(series1);
         lineChart.setPrefSize(750,500);
 
         root.getChildren().add(lineChart);

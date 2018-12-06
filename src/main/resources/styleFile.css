@@ -1,0 +1,12 @@
+.series0{
+    -fx-stroke-width: 5px;
+    -fx-stroke-line-join: round;
+    -fx-stroke-line-cap: round;
+    -fx-smooth: false;
+}
+.series1{
+    -fx-stroke-width: 10px;
+    -fx-stroke-dash-array: 12 2 4 2;
+    -fx-stroke-dash-offset: 6;
+    -fx-stroke-line-cap: butt;
+}
