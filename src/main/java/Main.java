@@ -26,7 +26,7 @@ public class Main extends Application {
 
     private Pane root = new Pane();
     private File selectedFile;
- 
+
 
     @Override public void start(Stage stage) {
         stage.setTitle("Java projekt A W");
@@ -34,11 +34,17 @@ public class Main extends Application {
 
         final NumberAxis xAxis = new NumberAxis(); // ustawienie osi x jako numerycznej
         final NumberAxis yAxis = new NumberAxis();  // to samo dla osi y
+
+        /*final LogarithmicAxis xAxis = new LogarithmicAxis(); // ustawienie osi x jako numerycznej
+        final LogarithmicAxis yAxis = new LogarithmicAxis();*/
+
         xAxis.setLabel("Oś X"); // nazwy
         yAxis.setLabel("Oś Y");
 
         final LineChart<Number,Number> lineChart =
                 new LineChart<Number,Number>(xAxis,yAxis); // wykres liniowy - numeryczny, na dwoch osiach
+
+
         lineChart.setCreateSymbols(false);
 
         //XYChart.Series series = new XYChart.Series(); // seria danych x i y dla pojedynczego wykresu
