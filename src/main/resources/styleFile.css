@@ -10,3 +10,23 @@
     -fx-stroke-dash-offset: 6;
     -fx-stroke-line-cap: butt;
 }
+.series2{
+    -fx-stroke: green;
+    -fx-stroke-width: 5px;
+    -fx-stroke-dash-array: 10 10 10 10;
+    -fx-stroke-dash-offset: 2;
+    -fx-stroke-line-cap: butt;
+}
+.series3{
+    -fx-stroke-width: 7px;
+    -fx-stroke-dash-array: 2 2 2 2;
+    -fx-stroke-dash-offset: 10;
+    -fx-stroke-line-cap: butt;
+    -fx-smooth: true;
+}
+.series4{
+    -fx-stroke-width: 10px;
+    -fx-stroke-dash-array: 10 1 10 1;
+    -fx-stroke-dash-offset: 2;
+    -fx-stroke-line-cap: butt;
+}
