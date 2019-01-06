@@ -18,19 +18,62 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author Artur Widz
+ * @version 1.0
+ */
 public class Main extends Application  {
 
+    /**
+     * Glowny panel aplikacji
+     */
     private Pane root = new Pane();
+    /**
+     * Plik tekstowy z danymi wykresów, wybrany przez użytkownika
+     */
     private File selectedFile;
+    /**
+     * Lista zawierająca dane jednego przebiegu
+     */
     private List<Double> dataList = new ArrayList<>();
+    /**
+     * Lista ktora zawiera dane o wszystkich przebiegach na wykresie
+     */
     private List<Double> allDataList = new ArrayList<>();
+    /**
+     * Bool sprawdzajacy czy aktualnie wyswietalna jest os X w skali liniowej
+     */
     private boolean lineScaleX = true;
+    /**
+     * Bool sprawdzajacy czy aktualnie wyswietalna jest os Y w skali liniowej
+     */
     private boolean lineScaleY = true;
+    /**
+     * Seria danych wykresu
+     */
     private XYChart.Series series;
+    /**
+     * Bool sprawdzajacy czy mozliwe jest przelaczenie na skale logarytmiczna osi X
+     */
     private boolean logXScaleAva = true;
+    /**
+     * Bool sprawdzajacy czy mozliwe jest przelaczenie na skale logarytmiczna osi Y
+     */
     private boolean logYScaleAva = true;
 
 
+    /**
+     * Główna metoda aplikacji. Odpowiada za stworzenie ekranu głównego aplikacji wraz z przyciskami. W metodzie okreslone zostaly
+     * rozmiary okna, miejsca w ktorych znajduja sie przyciski oraz implementacje akcji wykonanych podczas nacisniecia przyciskow.
+     * Metoda zawiera również implementacje wykresów, wyboru pliku tekstowego wraz z filtrem wyszukiwania plików z rozszerzeniem .txt.
+     * W metodzie zawarto sprawdzenie czy wczytany plik nie zawiera wiecej niz 20 wartosci (po 10 na kazda os), a w przypadku przekroczenia
+     * wyswietlany jest odpowiedni komunikat o bledzie. Podczas wybierania przycisków odpowiadających za zmianę osi na logarytmiczną,
+     * sprawdzane jest czy dane moga zostac przekonwertowane (tylko dodatnie wartosci na odpowiedniej osi, zaleznie od przycisku).
+     * Jezeli nie jest to mozliwe, wyswietlany jest komunikat o bledzie. Ukrywanie przebiegów i ich ponowne wyswietlanie na wykresie
+     * zostało zrealizowane tak, by program reagowal na wybranie nazwy wykresu na legendzie i wylaczal odpowiedni, przypisany do niej
+     * przebieg odpowiednio przeszukujac wykres.
+     * @param stage
+     */
     @Override public void start(Stage stage) {
         stage.setTitle("Java projekt A W");
         root.setPrefSize(1000, 600); // wymiary glownego okna
@@ -219,7 +262,7 @@ public class Main extends Application  {
                 for (int j = 0; j < allDataList.size(); j+=20){
                     XYChart.Series series2 = new XYChart.Series();
                     for (k = j; k < j+20; k+=2){
-                        series2.getData().add(new XYChart.Data(allDataList.get(k), Math.log10(allDataList.get(k+1))));
+                        series2.getData().add(new XYChart.Data(allDataList.get(k), allDataList.get(k+1)));
                     }
                     series2.setName("Wykres " + nr);
                     lineChart.getData().add(series2);
